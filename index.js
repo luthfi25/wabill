@@ -1,4 +1,4 @@
-const { WAConnection, MessageType } = require("@adiwajshing/baileys")
+const { WAConnection, MessageType, Mimetype } = require("@adiwajshing/baileys")
 const fs = require("fs")
 const http = require("http")
 const qrcode = require("qrcode")
@@ -83,7 +83,7 @@ app.post('/send-message', async (req, res) => {
 		const exists = await wa.isOnWhatsApp(number)
 
 		if (exists) {
-		  wa.sendMessage(exists.jid, message, MessageType.text)
+		  	wa.sendMessage(exists.jid, { url: 'Images/tes_image.jpg' }, MessageType.image, { mimetype: Mimetype.jpeg, caption: "Test pake gambar!" })
 		  	.then(result => {
 			  	res.status(200).json({
 				  	status: true,
@@ -96,6 +96,20 @@ app.post('/send-message', async (req, res) => {
 				  	response: err
 				  })
 			  })
+		
+			// wa.sendMessage(exists.jid, message, MessageType.text)
+		  	// .then(result => {
+			//   	res.status(200).json({
+			// 	  	status: true,
+			// 	  	response: result
+			// 	  })
+			//   })
+			//   .catch(err => {
+			//   	res.status(500).json({
+			// 	  	status: false,
+			// 	  	response: err
+			// 	  })
+			//   })
 		} else {
 	    res.status(500).json({
 	      status: false,
