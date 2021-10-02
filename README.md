@@ -2,11 +2,12 @@
 
 ## Changelog
 
-Saya mengembangkan program open source ini untuk mendukung fitur mengirimkan gambar.
 - Pengguna dapat menggunakan kolom 'gambar' di Excel untuk mengirim gambar.
 - Pengguna harus menuliskan nama lengkap file gambar yang akan dikirim di kolom tersebut. (contoh: `gambar.jpg`)
 - Gambar yang akan dikirimkan harap disiapkan di folder `client/images`.
 - Gambar akan ditampilkan di area Format dan Preview.
+
+***
 
 Kirim pesan WhatsApp unik ke banyak nomor sekaligus.
 
