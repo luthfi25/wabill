@@ -1,5 +1,13 @@
 # Wabill
 
+## Changelog
+
+Saya mengembangkan program open source ini untuk mendukung fitur mengirimkan gambar.
+- Pengguna dapat menggunakan kolom 'gambar' di Excel untuk mengirim gambar.
+- Pengguna harus menuliskan nama lengkap file gambar yang akan dikirim di kolom tersebut. (contoh: `gambar.jpg`)
+- Gambar yang akan dikirimkan harap disiapkan di folder `client/images`.
+- Gambar akan ditampilkan di area Format dan Preview.
+
 Kirim pesan WhatsApp unik ke banyak nomor sekaligus.
 
 Klik [link ini](https://youtu.be/iQz-v9CCngE) untuk melihat video panduan instalasi dan penggunaan.
@@ -29,7 +37,9 @@ Untuk menjalankan dengan executable, download aplikasi ini di bagian Release di 
 
 ![baris dan kolom pertama](client/assets/ss2.png)
 
-4. Buat template, bungkus judul kolom dengan simbol **{}**, contoh template (sesuai data diatas):
+4. **FITUR BARU** Jika ingin mengirimkan gambar, harap menambahkan kolom `gambar` yang berisi nama-nama file gambar yang akan dikirim dengan format `[NAMA FILE].[EKSTENSI]`. (contoh: `gambar.jpg`)
+
+5. Buat template, bungkus judul kolom dengan simbol **{}**, contoh template (sesuai data diatas):
 >Pelanggan Yth,
 
 >Bersama ini kami informasikan tagihan Wabill Anda {nomor} atas nama {nama}, bln tagihan 08-2021 sebesar {tagihan} akan jatuh tempo pada tanggal 05-09-2021.
@@ -39,8 +49,9 @@ Untuk menjalankan dengan executable, download aplikasi ini di bagian Release di 
 >Abaikan notifikasi ini jika sudah melakukan pembayaran.
 
 >Terima kasih
-5. Cek preview terlebih dahulu
-6. Kirim!
+
+6. Cek preview terlebih dahulu
+7. Kirim!
 
 ## Update
 Aplikasi ini menggunakan libarary Baileys, yang bisa jadi di kemudian hari membutuhkan update. Anda bisa mendukung aplikasi ini dengan berdonasi melalui:

@@ -6,7 +6,8 @@ console.log('%cvisit me on https://afarhansib.github.io/', 'font-weight: bold; f
 // global variable
 let rawData, formattedData, rawMsg = []
 let basicValidation = true
-let dataIsFormatted = false
+let dataIsFormatted = false;
+let imageIndex = -1; //flag bahwa user ingin mengirimkan gambar
 
 
 // resize textarea template sesuai dengan textarea data
@@ -67,7 +68,9 @@ let formatData = () => {
 	let tmp2 = []
 
 	tmp1.forEach((e, i) =>{
-		let tmp3 = e.split("%09")
+		//membuat data konsisten, semua harus lower case
+		let tmp3 = e.toLowerCase().split("%09")
+
 		if (i == 0) {
 			tmp3.push("status")
 			tmp3.unshift("#")
@@ -100,8 +103,14 @@ let formatData = () => {
 
 		formattedData.forEach((e, i) => {
 			if (i == 0) {
+				//reset image index setiap format (in case user berubah pikiran dan menghapus kolom gambar)
+				imageIndex = -1;
 				let str = "<tr>"
 					e.forEach((f, j) => {
+						//segera simpan image index begitu kolom gambar ditemukan
+						if(f.toLowerCase() == 'gambar'){
+							imageIndex = j;
+						}
 						str += `<th>${f}</th>`
 					})
 				str += "</tr>"
@@ -112,6 +121,9 @@ let formatData = () => {
 					if (j == 1) {
 						str += `<td>${f}</td>`
 						// str += `<td><a href="https://wa.me/${f}">${f}</a></td>`
+					} else if (j == imageIndex){
+						//tampilkan gambar di area format, jika ada
+						str += `<td><img src="./images/${f}" style="height:100px; width:auto;"></img></td>`
 					} else {
 						str += `<td>${f}</td>`
 					}
@@ -169,8 +181,16 @@ let previewMessage = () => {
 		formattedData.forEach((e, i) => {
 			if (i !== 0) {
 				rawMsg.push(interpolateString(document.getElementById("template").value, formattedData[0], formattedData[i]))
-				document.querySelector(".preview-wrapper").insertAdjacentHTML("beforeend", 
-					`<div class="preview-chat"><div>${interpolateString((document.getElementById("template").value).replace(new RegExp('\r?\n','g'), '<br />'), formattedData[0], formattedData[i])}</div></div>`)
+				formattedString = interpolateString((document.getElementById("template").value).replace(new RegExp('\r?\n','g'), '<br />'), formattedData[0], formattedData[i]);
+				
+				//tampilkan gambar di preview message
+				if(imageIndex != -1){
+					document.querySelector(".preview-wrapper").insertAdjacentHTML("beforeend", 
+						`<div class="preview-chat"><div><img src="./images/${e[imageIndex]}" style="height:150px; width:auto;"/><br/>${formattedString}</div></div>`)
+				} else {
+					document.querySelector(".preview-wrapper").insertAdjacentHTML("beforeend", 
+						`<div class="preview-chat"><div>${formattedString}</div></div>`)
+				}
 			}
 		})
 	}
@@ -221,12 +241,19 @@ let sendMessages = () => {
 		  	updateStatus(i - 1,"sending...")
 		  	updateProgress(`${i}/${formattedData.length - 1}`)
 		    console.log(`Mengirimkan pesan ke ${e[2]}`)
+
+			//kirimkan gambar jika ada
+			bodyPayload = `number=${e[1]}&message=${rawMsg[i - 1]}`
+			if (imageIndex != -1){
+				bodyPayload += `&image=${e[imageIndex]}`
+			}
+
 		    fetch(document.getElementById("server").value + "send-message", {
 					method: "POST",
 					headers: {
 						"content-type":"application/x-www-form-urlencoded"
 					},
-					body: `number=${e[1]}&message=${rawMsg[i - 1]}`
+					body: bodyPayload
 				})
 				.then(r => r.json())
 				.then(res => {

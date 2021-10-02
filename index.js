@@ -18,6 +18,8 @@ app.use(express.urlencoded({
   extended: true
 }))
 app.use("/assets", express.static(__dirname + "/client/assets"))
+//images folder will contain images to be sent to customer
+app.use("/images", express.static(__dirname + "/client/images"))
 
 app.get("/", (req, res) => {
 	res.sendFile("./client/server.html", {
@@ -78,38 +80,42 @@ io.on("connection", async socket => {
 app.post('/send-message', async (req, res) => {
   const message = req.body.message
   const number = req.body.number
+  const image = req.body.image ? req.body.image : null
 
   if (wa.state === "open") {
 		const exists = await wa.isOnWhatsApp(number)
 
 		if (exists) {
-		  	wa.sendMessage(exists.jid, { url: 'Images/tes_image.jpg' }, MessageType.image, { mimetype: Mimetype.jpeg, caption: "Test pake gambar!" })
-		  	.then(result => {
-			  	res.status(200).json({
-				  	status: true,
-				  	response: result
-				  })
-			  })
-			  .catch(err => {
-			  	res.status(500).json({
-				  	status: false,
-				  	response: err
-				  })
-			  })
-		
-			// wa.sendMessage(exists.jid, message, MessageType.text)
-		  	// .then(result => {
-			//   	res.status(200).json({
-			// 	  	status: true,
-			// 	  	response: result
-			// 	  })
-			//   })
-			//   .catch(err => {
-			//   	res.status(500).json({
-			// 	  	status: false,
-			// 	  	response: err
-			// 	  })
-			//   })
+			//kirim wabill menggunakan messagetype.image jika ada gambar
+			if(image){
+				wa.sendMessage(exists.jid, { url: 'client/images/'+image }, MessageType.image, { mimetype: Mimetype.jpeg, caption: message })
+				.then(result => {
+					res.status(200).json({
+						status: true,
+						response: result
+					})
+				})
+				.catch(err => {
+					res.status(500).json({
+						status: false,
+						response: err
+					})
+				})
+			} else {
+				wa.sendMessage(exists.jid, message, MessageType.text)
+				.then(result => {
+					res.status(200).json({
+						status: true,
+						response: result
+					})
+				})
+				.catch(err => {
+					res.status(500).json({
+						status: false,
+						response: err
+					})
+				})
+			}
 		} else {
 	    res.status(500).json({
 	      status: false,
