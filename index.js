@@ -4,12 +4,24 @@ const http = require("http")
 const qrcode = require("qrcode")
 const express = require("express")
 const socketIO = require("socket.io")
+const path = require("path")
+const multer = require("multer") //every multer implementation is related to image upload function
 
 const port = 8000 || process.env.PORT
 const wa = new WAConnection()
 const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
+const handleError = (err, res) => {
+	res
+	.status(500)
+	.contentType("text/plain")
+	.end("Oops! Something went wrong!");
+};
+
+const upload = multer({
+	dest: "/images"
+});
 
 wa.connectOptions.alwaysUseTakeover = false
 
@@ -19,7 +31,7 @@ app.use(express.urlencoded({
 }))
 app.use("/assets", express.static(__dirname + "/client/assets"))
 //images folder will contain images to be sent to customer
-app.use("/images", express.static(__dirname + "/client/images"))
+app.use("/images", express.static(__dirname + "/images"))
 
 app.get("/", (req, res) => {
 	res.sendFile("./client/server.html", {
@@ -88,7 +100,7 @@ app.post('/send-message', async (req, res) => {
 		if (exists) {
 			//kirim wabill menggunakan messagetype.image jika ada gambar
 			if(image){
-				wa.sendMessage(exists.jid, { url: 'client/images/'+image }, MessageType.image, { mimetype: Mimetype.jpeg, caption: message })
+				wa.sendMessage(exists.jid, { url: '/images/'+image }, MessageType.image, { mimetype: Mimetype.jpeg, caption: message })
 				.then(result => {
 					res.status(200).json({
 						status: true,
@@ -129,6 +141,21 @@ app.post('/send-message', async (req, res) => {
     })
   }
 })
+
+app.post("/upload", upload.single("file"), (req, res) => {
+		const tempPath = req.file.path;
+		const targetPath = path.join(__dirname, "/images/"+req.file.originalname);
+
+		fs.rename(tempPath, targetPath, err => {
+			if (err) return handleError(err, res);
+
+			res.status(200).json({
+				status: true,
+				response: result
+			})
+		})
+	}
+)
 
 server.listen(port, () => {
     console.log(`Server berjalan di http://localhost:${port}`)
