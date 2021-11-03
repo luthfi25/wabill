@@ -7,6 +7,7 @@ const socketIO = require("socket.io")
 
 const port = 8000 || process.env.PORT
 const wa = new WAConnection()
+wa.version = [3, 3234, 9]
 const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
