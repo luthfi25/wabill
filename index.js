@@ -101,7 +101,7 @@ app.post('/send-message', async (req, res) => {
 		if (exists) {
 			//kirim wabill menggunakan messagetype.image jika ada gambar
 			if(image){
-				wa.sendMessage(exists.jid, { url: '/images/'+image }, MessageType.image, { mimetype: Mimetype.jpeg, caption: message })
+				wa.sendMessage(exists.jid, { url: 'images/'+image }, MessageType.image, { mimetype: Mimetype.jpeg, caption: message })
 				.then(result => {
 					res.status(200).json({
 						status: true,
