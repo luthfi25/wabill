@@ -68,8 +68,7 @@ let formatData = () => {
 	let tmp2 = []
 
 	tmp1.forEach((e, i) =>{
-		//membuat data konsisten, semua harus lower case
-		let tmp3 = e.toLowerCase().split("%09")
+		let tmp3 = e.split("%09")
 
 		if (i == 0) {
 			tmp3.push("status")
@@ -108,7 +107,7 @@ let formatData = () => {
 				let str = "<tr>"
 					e.forEach((f, j) => {
 						//segera simpan image index begitu kolom gambar ditemukan
-						if(f.toLowerCase() == 'gambar'){
+						if(f == 'gambar' || f == 'Gambar'){
 							imageIndex = j;
 						}
 						str += `<th>${f}</th>`
