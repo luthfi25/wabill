@@ -1,0 +1,65 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
+
+PATH: 
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\Go\bin;C:\Program Files (x86)\Yarn\bin\;C:\Ruby31-x64\bin;C:\Users\luthf\AppData\Local\Microsoft\WindowsApps;C:\Users\luthf\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\luthf\AppData\Roaming\npm;C:\Users\luthf\go\bin;C:\Users\luthf\AppData\Local\Microsoft\WindowsApps;C:\Users\luthf\AppData\Local\GitHubDesktop\bin;C:\Users\luthf\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  14.18.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, rmdir 'C:\Users\luthf\Desktop\Projects\wabill\node_modules\.bin'
+
+npm manifest: 
+  {
+    "name": "wabill",
+    "version": "1.0.0",
+    "description": "WhatsApp API using baileys",
+    "main": "index.js",
+    "bin": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node index.js",
+      "start-dev": "nodemon index.json",
+      "build": "pkg ."
+    },
+    "keywords": [
+      "WhatsApp"
+    ],
+    "author": {
+      "name": "Muhammad Luthfi",
+      "email": "luthfi.muhammad825@gmail.com"
+    },
+    "license": "ISC",
+    "dependencies": {
+      "@adiwajshing/baileys": "^5.0.0",
+      "express": "^4.18.2",
+      "multer": "^1.4.3",
+      "path": "^0.12.7",
+      "qrcode": "^1.4.4",
+      "socket.io": "^4.7.2",
+      "url": "^0.11.0"
+    },
+    "pkg": {
+      "assets": [
+        "client/**/*"
+      ],
+      "targets": [
+        "node16-linux-x64",
+        "node16-win-x64"
+      ],
+      "outputPath": "dist"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -4,20 +4,22 @@
 		<meta charset="utf-8">
 		<title>Wabill</title>
 		<meta name="description" content="Kirim tagihan melalui WhatsApp secara otomatis.">
-		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" type="image/svg" href="./assets/icon.svg"/>
 		<link rel="stylesheet" type="text/css" href="./assets/main.css">
 	</head>
 	<body>
 		<header>
-			<img src="./assets/logo.svg">
+			<img src="./assets/logo.svg" alt="Logo Wabill">
 			<p>Kirim tagihan (atau pesan apapun) melalui WhatsApp secara otomatis.</p>
 		</header>
 		<main>
 			<section>
 				<div class="card">
-					<div class="title">Server</div>
-					<div class="body server-input">
+					<div class="title">
+						<label for="server">Server</label>
+					</div>
+					<div class="body server-input">						
 						<input type="text" id="server" value="http://localhost:8000/">
 						<button id="save-server" onclick="toast('fitur simpan belum tersedia')">simpan</button>
 					</div>
